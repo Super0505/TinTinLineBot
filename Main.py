@@ -2,7 +2,7 @@ from flask import Flask, request
 
 # 載入 json 標準函式庫，處理回傳的資料格式
 import json
-
+import dict
 # 載入 LINE Message API 相關函式庫
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
@@ -13,6 +13,7 @@ app = Flask(__name__)
 @app.route("/", methods=['POST'])
 def linebot():
     body = request.get_data(as_text=True)                    # 取得收到的訊息內容
+    chk = 0
     try:
         json_data = json.loads(body)                         # json 格式化訊息內容
         access_token = '8hrHjLYQYpu4Go70Gul9y2ocapWsCX41y/uLuqhuSaDZUnyzSlc5SOuTJrjRGWjeU+qljPWUbMOjhon48jz0wPpublGvmz1p9T1hmsrsVs7/DI4AgdM/cdgp131xVz7Rrd+y8mzjBmm77nA1Vi7NwwdB04t89/1O/w1cDnyilFU='
@@ -25,15 +26,25 @@ def linebot():
         type = json_data['events'][0]['message']['type']     # 取得 LINe 收到的訊息類型
         if type=='text':
             msg = json_data['events'][0]['message']['text']  # 取得 LINE 收到的文字訊息
-            print(msg)                                       # 印出內容
-            reply = msg
+            for i in range (0, len(dict.dictionary)):
+                if any(keyword in msg for keyword in dict.dictionary[i]["keyword"]):
+                    reply=dict.dictionary[i]["response"]
+                    chk = 0
+                    break
+                else:
+                    chk = 1
+            if chk == 1:
+                reply = '查無此關鍵字'
+            #print(reply)                                       # 印出內容
+            #reply = msg
         else:
             reply = '你傳的不是文字呦～'
-        print(reply)
         line_bot_api.reply_message(tk,TextSendMessage(reply))# 回傳訊息
-    except:
-        print(body)                                          # 如果發生錯誤，印出收到的內容
+    except Exception as e:
+        print(e)                                          # 如果發生錯誤，印出收到的內容
     return 'OK'                                              # 驗證 Webhook 使用，不能省略
 
 if __name__ == "__main__":
     app.run()
+    
+    
