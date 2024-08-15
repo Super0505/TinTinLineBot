@@ -26,6 +26,7 @@ def linebot():
         type = json_data['events'][0]['message']['type']     # 取得 LINe 收到的訊息類型
         if type=='text':
             msg = json_data['events'][0]['message']['text']  # 取得 LINE 收到的文字訊息
+            print(msg)
             for i in range (0, len(dict.dictionary)):
                 if any(keyword in msg for keyword in dict.dictionary[i]["keyword"]):
                     reply=dict.dictionary[i]["response"]
@@ -46,5 +47,7 @@ def linebot():
 
 if __name__ == "__main__":
     app.run()
+    
+
     
     

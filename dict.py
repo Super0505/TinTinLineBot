@@ -1,7 +1,8 @@
+
 delivery_platform = {'rowid': 1,
                      'type': 'delivery_platform',
                      'response':'POS價格調整到同外送平台',
-                     'keyword':['外送平台價格不同','平台價錢不同','平台價格']}
+                     'keyword':['外送平台價格不同','平台價錢不同','平台價格','外送']}
 
 product_issue= {'rowid': 2,
                 'type': 'product_issue',
@@ -17,6 +18,16 @@ learning_platform = {'rowid': 4,
                      'type': 'learning_platform',
                      'response':'以下是教學網的網址: https://www.norbelbaby.com.tw/Eledge/servlet/Eledge.Home',
                      'keyword':['教學網']}
+
+def createdict(dictName, rowid, type, response, keyword):
+    test = {}
+    test['rowid'] = rowid
+    test['type'] = type
+    test['response'] = response
+    test['keyword'] = keyword
+    dictName = test
+    
+
 
 
 dictionary = [delivery_platform, product_issue, connection_issue, learning_platform]
